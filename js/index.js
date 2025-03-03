@@ -250,6 +250,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.querySelector(".sidebar").removeAttribute("hidden");
 	document.querySelector(".sorting").removeAttribute("hidden");
 
+	const showButton = document.querySelector(".filters__submit");
+    showButton.addEventListener("click", (event) => {
+        event.preventDefault(); 
+        filters();
+    });
+
 	
 });
 
@@ -336,3 +342,34 @@ sortExperience.addEventListener("click", function(){
     setActiveButton(this);
 
 })
+function filters() {
+    const specialization = document.querySelector('input[name="direction"]:checked');
+    const category = document.querySelector('input[name="category"]:checked');
+    
+    if (!specialization || !category) return;
+    
+    const selectedSpecialization = specialization.value;
+    const selectedCategory = category.value;
+    
+    const specializationMap = {
+        "all": "all",
+        "gym": "Тренажерний зал",
+        "fight club": "Бійцівський клуб",
+        "kids club": "Дитячий клуб",
+        "swimming pool": "Басейн"
+    };
+    
+    const categoryMap = {
+        "all": "all",
+        "master": "майстер",
+        "specialist": "спеціаліст",
+        "instructor": "інструктор"
+    };
+    
+    const filteredTrainers = DATA.filter(trainer => {
+        return (selectedSpecialization === "all" || trainer.specialization === specializationMap[selectedSpecialization]) && 
+               (selectedCategory === "all" || trainer.category === categoryMap[selectedCategory]);
+    });
+    
+    renderTrainers(filteredTrainers);
+}
