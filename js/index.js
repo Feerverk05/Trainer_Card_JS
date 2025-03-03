@@ -315,8 +315,10 @@ function setActiveButton(button) {
     });
     button.classList.add("sorting__btn--active");
 }
+DATA.forEach((trainer, index) => trainer.Index = index);
 
 sortAYA.addEventListener("click", function(){
+	DATA.sort((a, b) => a.Index - b.Index);
 	renderTrainers(DATA);
 	setActiveButton(this);
 })
